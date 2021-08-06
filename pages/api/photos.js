@@ -1,5 +1,5 @@
 import { Web3Storage, File } from 'web3.storage';
-import EXIFParser from 'exif-parser';
+// import EXIFParser from 'exif-parser';
 import { Client, ThreadID } from '@textile/hub';
 
 const {

@@ -1,8 +1,5 @@
-import Head from 'next/head';
-import Image from 'next/image';
 import axios from 'axios';
 import React from 'react';
-import EXIF from 'exif-js';
 import Header from '../components/header';
 import styles from '../styles/Home.module.css';
 
@@ -31,7 +28,8 @@ export default function Upload() {
       authorId: 'saleel',
     });
 
-    window.alert('Photo uploaded');
+    // eslint-disable-next-line no-undef
+    window.location.replace('/');
   }
 
   const [selectedPhoto, setSelectedPhoto] = React.useState();

@@ -29,14 +29,14 @@ export default function Home() {
         <p className={styles.description}>
           Momento is a decentralized platform for freely usable images.
           <br />
-          <a>Why Share?</a>
-          <a>License</a>
+          {/* <a>Why Share?</a> */}
+          {/* <a>License</a> */}
 
         </p>
 
         <div className={styles.grid}>
           {photos.map((photo) => (
-            <div>
+            <div key={photo.originalCid}>
               <Image src={`https://bafybeigyr7pxdbgqolaux64keh7fls5wqeh3wxqjm5hmy4iz5us65umqfa.ipfs.dweb.link/${photo.fileName}`} width="400" height="400" />
               {photo.originalCid}
             </div>

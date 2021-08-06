@@ -1,5 +1,6 @@
-import Head from 'next/head'
-import styles from './header.module.css'
+import Head from 'next/head';
+import Link from 'next/link';
+import styles from './header.module.css';
 
 export default function Header() {
   return (
@@ -11,8 +12,8 @@ export default function Header() {
       </Head>
 
       <header className={styles.header}>
-        <a href="/">Momento</a>
+        <Link href="/">Momento</Link>
       </header>
     </>
-  )
+  );
 }
