@@ -20,8 +20,6 @@ export default async function setup() {
     console.log(threadId.toString());
   }
 
-  // await client.deleteCollection(threadId, 'Photos');
-
   await client.newCollection(threadId, {
     name: process.env.THREAD_COLLECTION,
     schema: {
@@ -41,7 +39,8 @@ export default async function setup() {
         authorId: { type: 'string' },
         location: { type: 'string' },
         fileName: { type: 'string' },
-        extension: { type: 'string' },
+        fileSize: { type: 'number' },
+        fileType: { type: 'string' },
         info: { type: 'object' },
         createdAt: { type: 'string', format: 'date-time' },
         updatedAt: { type: 'string', format: 'date-time' },

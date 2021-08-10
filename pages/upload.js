@@ -1,43 +1,29 @@
 import axios from 'axios';
 import React from 'react';
 import Header from '../components/header';
-import styles from '../styles/Home.module.css';
 
 export default function Upload() {
-  const toBase64 = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+  const [selectedPhoto, setSelectedPhoto] = React.useState();
 
   async function onSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.target);
 
-    const file = data.get('photo');
-    const imageBase64 = await toBase64(file);
-
-    await axios.post('/api/photos', {
-      imageBase64,
-      fileName: file.name,
-      extension: file.type,
-      title: data.get('title'),
-      location: data.get('location'),
-      tags: data.get('tags').split(','),
-      authorId: 'saleel',
+    await axios.post('/api/photos', data, {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
     });
 
     // eslint-disable-next-line no-undef
     window.location.replace('/');
   }
 
-  const [selectedPhoto, setSelectedPhoto] = React.useState();
-
   return (
     <>
       <Header />
-      <div className={styles.container}>
+      <div className="container">
+
         <h2>Upload a photo to Momento</h2>
 
         <form onSubmit={onSubmit}>
@@ -53,7 +39,7 @@ export default function Upload() {
                 onChange={(e) => {
                   e.preventDefault();
                   if (e.target.value) {
-                    setSelectedPhoto(e.target.value.split('\\').pop());
+                    setSelectedPhoto(e.target.files[0]);
                   }
                 }}
               />
@@ -69,7 +55,7 @@ export default function Upload() {
           </div>
 
           <div style={{ display: selectedPhoto ? 'block' : 'none' }}>
-            <h2 className="subtitle">{selectedPhoto}</h2>
+            <h2 className="subtitle">{selectedPhoto?.name}</h2>
 
             <div className="field">
               <label htmlFor="title" className="label">Name</label>

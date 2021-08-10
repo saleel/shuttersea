@@ -1,6 +1,8 @@
+import fs from 'fs';
 import { Web3Storage, File } from 'web3.storage';
-// import EXIFParser from 'exif-parser';
+import EXIFParser from 'exif-parser';
 import { Client, ThreadID } from '@textile/hub';
+import formData from '../../middleware/form-data';
 
 const {
   WEB3_STORAGE_TOKEN,
@@ -19,34 +21,60 @@ async function getClient() {
   return client;
 }
 
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
+
 const threadId = ThreadID.fromString(THREAD_ID);
 
 const web3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
 
 async function create(req, res) {
+  try {
+    await runMiddleware(req, res, formData);
+  } catch (error) {
+    res.json({ error });
+  }
+  // console.log('here now');
+
   const {
-    imageBase64, title, fileName, extension, tags, authorId, location,
+    title, tags, authorId, location,
   } = req.body;
 
-  const imageBuffer = Buffer.from(imageBase64, 'base64');
-  const originalCid = await web3StorageClient.put([new File(imageBuffer, fileName)]);
+  const { photo } = req.files;
+  const { originalFilename: fileName, size: fileSize, headers: { 'content-type': fileType } } = photo;
 
-  // const parser = EXIFParser.create(imageBuffer);
+  // console.log(photo);
+
+  const photoBuffer = fs.readFileSync(photo.path);
+  const photoFile = new File([photoBuffer], fileName);
+  const originalCid = await web3StorageClient.put([photoFile]);
+
+  // const parser = EXIFParser.create(photoBuffer);
   // const exifData = parser.parse();
 
   // console.log('xif', exifData);
 
   const client = await getClient();
 
-  const photo = {
+  const photoDoc = {
     title,
     originalCid,
     fileName,
-    extension,
+    fileSize,
+    fileType,
     // smallCid: '',
     // mediumCid: '',
     // largeCid: '',
-    tags,
+    tags: (tags || '').split(',').map((t) => t.trim()),
     views: 0,
     downloads: 0,
     authorId,
@@ -56,10 +84,9 @@ async function create(req, res) {
     updatedAt: new Date().toISOString(),
   };
 
-  console.log('photo', photo);
+  console.log(photoDoc);
 
-  const created = await client.create(threadId, THREAD_COLLECTION, [photo]);
-
+  const created = await client.create(threadId, THREAD_COLLECTION, [photoDoc]);
   res.status(200).json(created);
 }
 
@@ -67,18 +94,26 @@ async function find(req, res) {
   const { keyword } = req.query;
 
   const client = await getClient();
+
+  // const found = await client.delete(threadId, THREAD_COLLECTION, ['bafybeigyr7pxdbgqolaux64keh7fls5wqeh3wxqjm5hmy4iz5us65umqfa',])
+
   const found = await client.find(threadId, THREAD_COLLECTION, { name: keyword });
 
   res.status(200).json(found);
 }
 
 export default async function handler(req, res) {
-  console.log(req.method);
   if (req.method === 'GET') {
-    find(req, res);
+    await find(req, res);
   } else if (req.method === 'POST') {
-    create(req, res);
+    await create(req, res);
   } else {
     res.status(400).json({ error: 'Invalid method' });
   }
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

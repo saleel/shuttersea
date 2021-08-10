@@ -4,5 +4,6 @@
   "rules": { 
     "react/jsx-filename-extension": [0],
     "react/jsx-props-no-spreading": [0],
-    "jsx-a11y/label-has-associated-control": [0]
+    "jsx-a11y/label-has-associated-control": [0],
+    "@next/next/no-img-element": [0]
 }}
