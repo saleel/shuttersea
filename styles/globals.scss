@@ -26,13 +26,12 @@ a {
   height: 100vh;
 }
 
-
 .main {
   padding: 2rem 0;
+  padding-top: 4rem;
   flex: 1;
   width: 100%;
   display: flex;
-  justify-content: center;
   flex-direction: column;
 }
 
@@ -41,7 +40,7 @@ a {
   justify-content: space-between;
   width: 100%;
   display: flex;
-  background-color: #efefef;
+  // background-color: #efefef;
   font-size: 0.9rem;
 }
 

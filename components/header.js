@@ -1,7 +1,12 @@
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export default function Header() {
+export default function Header(props) {
+  const [keyword, setKeyword] = React.useState(props.keyword);
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -12,7 +17,24 @@ export default function Header() {
       <header className="header">
         <h1 className="logo"><Link href="/">ShutterSea</Link></h1>
 
-        <Link href="/upload">Submit Photo</Link>
+        <form className="search" onSubmit={() => { router.push(`/search/${keyword}`); }}>
+          <div className="control has-icons-left has-icons-right">
+            <input
+              className="input"
+              type="text"
+              placeholder="Search"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            <span className="icon is-small is-left">
+              <i className="fas fa-search" />
+            </span>
+          </div>
+        </form>
+
+        <Link href="/upload">
+          <div className="button is-light">Submit Photo</div>
+        </Link>
       </header>
     </>
   );

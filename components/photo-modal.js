@@ -18,7 +18,7 @@ export default function PhotoGrid(props) {
                 Share
               </span>
             </button>
-            <button className="button is-link is-light is-normal">
+            <button className="button is-light is-normal">
               <span className="icon">
                 <i className="fas fa-download" />
               </span>
