@@ -10,7 +10,7 @@ export default function PhotoGrid(props) {
 
           <header className="photo-modal-header">
 
-            <button className="button is-light is-normal mr-3">
+            <button type="button" className="button is-light is-normal mr-3">
               <span className="icon">
                 <i className="fas fa-share" />
               </span>
@@ -18,7 +18,7 @@ export default function PhotoGrid(props) {
                 Share
               </span>
             </button>
-            <button className="button is-light is-normal">
+            <button type="button" className="button is-light is-normal">
               <span className="icon">
                 <i className="fas fa-download" />
               </span>
@@ -74,7 +74,7 @@ export default function PhotoGrid(props) {
                 <p className="is-size-7">Views</p>
               </div>
 
-              <button className="button photo-modal-info">
+              <button type="button" className="button photo-modal-info">
                 <p>
                   <span className="icon is-small">
                     <i className="fas fa-heart" />
@@ -90,7 +90,7 @@ export default function PhotoGrid(props) {
         </div>
       </div>
 
-      <button className="modal-close is-large" aria-label="close" onClick={onClose} />
+      <button type="button" className="modal-close is-large" aria-label="close" onClick={onClose} />
     </div>
   );
 }

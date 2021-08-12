@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Search from './search';
 
 export default function Header(props) {
+  const { keyword } = props;
   const router = useRouter();
 
   return (
@@ -18,7 +19,7 @@ export default function Header(props) {
         <h1 className="logo"><Link href="/">ShutterSea</Link></h1>
 
         {router.pathname !== '/' && (
-          <Search keyword={props.keyword} />
+          <Search keyword={keyword} />
         )}
 
         <Link href="/upload">

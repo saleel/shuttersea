@@ -20,6 +20,7 @@ export default function PhotoGrid(props) {
                 onClick={() => { setSelectedPhoto(photo); }}
                 style={{ cursor: 'zoom-in' }}
                 role="button"
+                tabIndex="0"
               >
 
                 <div className="photo-image">
