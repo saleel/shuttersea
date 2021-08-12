@@ -1,6 +1,6 @@
 # ShutterSea
 
-A decentralized platform for freely usable images.
+An open-source decentralized platform for freely usable images.
 
 [https://shuttersea.com](https://shuttersea.com)
 
