@@ -3,7 +3,8 @@ import { Web3Storage, File } from 'web3.storage';
 // import EXIFParser from 'exif-parser';
 import { Client, ThreadID } from '@textile/hub';
 import formData from '../../middleware/form-data';
-
+// import { verifySignature } from '../../helpers/ceramic';
+// verifySignature()
 const {
   WEB3_STORAGE_TOKEN,
   THREAD_ID,
