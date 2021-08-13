@@ -2,6 +2,10 @@ import React from 'react';
 import { getUserName } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
 
+function getDownloadUrl(photo, size) {
+  return `/api/download?photoId=${photo._id}&size=${size}`;
+}
+
 export default function PhotoGrid(props) {
   const { photo, onClose } = props;
   const [userName, setUserName] = React.useState('');
@@ -23,7 +27,7 @@ export default function PhotoGrid(props) {
 
           <header className="photo-modal-header">
 
-            <button type="button" className="button is-light is-normal mr-3">
+            <button disabled type="button" className="button is-light is-normal mr-3">
               <span className="icon">
                 <i className="fas fa-share" />
               </span>
@@ -31,14 +35,33 @@ export default function PhotoGrid(props) {
                 Share
               </span>
             </button>
-            <button type="button" className="button is-light is-normal">
-              <span className="icon">
-                <i className="fas fa-download" />
-              </span>
-              <span>
-                Download
-              </span>
-            </button>
+
+            <div className="dropdown is-hoverable">
+              <div className="dropdown-trigger">
+                <button type="button" className="button is-light is-link" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span>Download</span>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true" />
+                  </span>
+                </button>
+              </div>
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <div className="dropdown-content">
+                  {(photo.availableSizes || ['original']).map((size) => (
+                    <a
+                      key={size}
+                      target="_blank"
+                      rel="nofollow noreferrer"
+                      href={getDownloadUrl(photo, size)}
+                      className="dropdown-item"
+                      style={{ textTransform: 'capitalize' }}
+                    >
+                      {size}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
 
           </header>
 
