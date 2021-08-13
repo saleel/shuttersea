@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { Web3Storage, File } from 'web3.storage';
-import { ThreadID, Where } from '@textile/hub';
+import { ThreadID } from '@textile/hub';
 import formData from '../../middleware/form-data';
 import { verifyJWS } from '../../helpers/auth';
 import { getThreadDbClient, getUser } from '../../helpers/thread';

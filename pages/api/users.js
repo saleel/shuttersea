@@ -4,7 +4,6 @@ const {
   THREAD_ID,
   THREAD_KEY,
   THREAD_SECRET,
-  THREAD_COLLECTION,
 } = process.env;
 
 async function getClient() {

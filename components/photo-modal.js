@@ -3,6 +3,7 @@ import { getUserName } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
 
 function getDownloadUrl(photo, size) {
+  // eslint-disable-next-line no-underscore-dangle
   return `/api/download?photoId=${photo._id}&size=${size}`;
 }
 
