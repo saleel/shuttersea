@@ -22,6 +22,10 @@ async function setup() {
     threadId = await client.newDB(ThreadID.fromRandom());
   }
 
+  // await client.deleteCollection(threadId, 'photos')
+  // const ids = await client.find(threadId, 'photos', {});
+  // await client.delete(threadId, 'photos', ids.map((a) => a._id));
+
   const collections = await client.listCollections(threadId);
 
   if (!collections.some((c) => c.name === 'photos')) {
@@ -31,17 +35,16 @@ async function setup() {
         $schema: 'http://json-schema.org/draft-07/schema#',
         title: 'Photos',
         type: 'object',
+        required: ['title', 'cid'],
         properties: {
           _id: { type: 'string' },
-          name: { type: 'string' },
-          originalCid: { type: 'string' },
-          smallCid: { type: 'string' },
-          mediumCid: { type: 'string' },
-          largeCid: { type: 'string' },
+          title: { type: 'string' },
+          cid: { type: 'string' },
+          availableSizes: { type: 'array', items: { type: 'string' } },
           tags: { type: 'array', items: { type: 'string' } },
           views: { type: 'number' },
           downloads: { type: 'number' },
-          authorId: { type: 'string' },
+          userId: { type: 'string' },
           location: { type: 'string' },
           fileName: { type: 'string' },
           fileSize: { type: 'number' },

@@ -1,27 +1,31 @@
 import axios from 'axios';
 import React from 'react';
 import Header from '../components/header';
-import { useRouter } from 'next/router';
+import { authenticate, signData } from '../helpers/ceramic';
 
 export default function Upload() {
   const [selectedPhoto, setSelectedPhoto] = React.useState();
   const [isSubmitting, setIsSubmitting] = React.useState();
 
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (!window.localStorage.getItem('userId')) {
-      router.push('/profile');
-    }
-  }, []);
-
   async function onSubmit(e) {
     e.preventDefault();
-    const data = new FormData(e.target);
-
     setIsSubmitting(true);
+
     try {
-      await axios.post('/api/photos', data, {
+      if (!window.ceramic || !window.ceramic.did) {
+        await authenticate();
+      }
+
+      const formData = new FormData(e.target);
+
+      formData.set('userId', window.userId);
+
+      const dataToSign = `${formData.get('title')}${selectedPhoto.name}`.replaceAll(' ', '').replaceAll('.', '');
+      const signature = await signData(dataToSign);
+
+      formData.set('signature', signature);
+
+      await axios.post('/api/photos', formData, {
         headers: {
           'content-type': 'multipart/form-data',
         },
@@ -31,9 +35,10 @@ export default function Upload() {
 
       // eslint-disable-next-line no-undef
       window.location.replace('/');
-    } catch (err) {
+    } catch (error) {
+      window.alert(`Error: ${error.message}`);
+    } finally {
       setIsSubmitting(false);
-      window.alert(`Error: ${err.message}`);
     }
   }
 
@@ -116,7 +121,7 @@ export default function Upload() {
                 </div>
               </div>
 
-              <input type="submit" className={`button is-link mt-4${isSubmitting ? ' is-loading' : ''}`} />
+              <input type="submit" disabled={isSubmitting} className={`button is-link mt-4${isSubmitting ? ' is-loading' : ''}`} />
             </div>
 
           </form>

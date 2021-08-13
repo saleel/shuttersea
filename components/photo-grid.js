@@ -1,4 +1,5 @@
 import React from 'react';
+import { getPhotoUrl } from '../helpers/common';
 import PhotoModal from './photo-modal';
 
 export default function PhotoGrid(props) {
@@ -6,14 +7,12 @@ export default function PhotoGrid(props) {
 
   const [selectedPhoto, setSelectedPhoto] = React.useState();
 
-  console.log('selectedPhoto', selectedPhoto);
-
   return (
     <>
       <div className="photo-grid">
-        <div className="columns">
+        <div className="columns is-multiline">
           {photos.map((photo) => (
-            <div key={photo.originalCid} className="column">
+            <div key={photo.originalCid} className="column mb-3">
 
               <div
                 className="photo-card"
@@ -27,7 +26,11 @@ export default function PhotoGrid(props) {
                   <div className="photo-mask" />
 
                   <div
-                    style={{ backgroundImage: `url(https://${photo.originalCid}.ipfs.dweb.link/${photo.fileName})`, backgroundSize: 'cover' }}
+                    style={{
+                      backgroundImage: `url(${getPhotoUrl(photo)})`,
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover',
+                    }}
                     alt={photo.title}
                   />
                 </div>

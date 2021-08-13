@@ -170,14 +170,15 @@ h1.title {
 
 .photo-modal-image {
   padding-bottom: 2rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
 
-  div {
+  img {
     max-width: 900px;
-    max-height: 700px;
+    max-height: 675px;
   }
 }
 

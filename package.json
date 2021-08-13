@@ -21,8 +21,10 @@
     "dids": "^2.4.0",
     "dotenv": "^10.0.0",
     "ec-key": "^0.0.4",
+    "exif": "^0.6.0",
     "exif-js": "^2.3.0",
     "exif-parser": "^0.1.12",
+    "image-size": "^1.0.0",
     "jose": "^3.14.3",
     "jsrsasign": "^10.3.0",
     "jsrsasign-util": "^1.0.5",
@@ -34,6 +36,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sass": "^1.37.5",
+    "sharp": "^0.28.3",
     "web3": "^1.5.1",
     "web3.storage": "^3.1.0"
   },

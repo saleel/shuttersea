@@ -1,3 +1,5 @@
+import { getPhotoUrl } from '../helpers/common';
+
 export default function PhotoGrid(props) {
   const { photo, onClose } = props;
 
@@ -30,11 +32,8 @@ export default function PhotoGrid(props) {
           </header>
 
           <div className="photo-modal-image">
-
-            <div
-              style={{
-                backgroundImage: `url(https://${photo.originalCid}.ipfs.dweb.link/${photo.fileName})`, backgroundSize: 'cover', width: '100%', height: '100%',
-              }}
+            <img
+              src={`${getPhotoUrl(photo, 'original')}`}
               alt={photo.title}
             />
           </div>

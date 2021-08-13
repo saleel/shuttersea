@@ -4,28 +4,6 @@ import { IDX } from '@ceramicstudio/idx';
 import { ThreeIdConnect, EthereumAuthProvider } from '@3id/connect';
 import KeyDidResolver from 'key-did-resolver';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
-import ECKey from 'ec-key';
-import { generalVerify } from 'jose/jws/general/verify';
-
-// export async function verifySignature() {
-//   console.log('verifySignature');
-//   // const threeIdConnect = new ThreeIdConnect();
-//   // const provider = await threeIdConnect.getDidProvider();
-
-//   const did = new DID({
-//     // provider,
-//     // resolver: { ...KeyDidResolver.getResolver() },
-//   });
-
-//   console.log(did);
-
-//   const result = await did.verifyJWS(jws);
-
-//   // console.log(result);
-// }
-import { generateKeyPair } from 'jose/util/generate_key_pair';
-
-import didJ from 'did-jwt';
 
 const ceramic = new Ceramic('https://ceramic-clay.3boxlabs.com');
 const idx = new IDX({ ceramic });
@@ -83,7 +61,7 @@ export async function getProfile() {
 }
 
 export async function signData(data) {
-  const jws = await ceramic.did.createJWS(JSON.stringify(data));
+  const jws = await ceramic.did.createJWS(data);
   return jwsToString(jws);
 }
 
