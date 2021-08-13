@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { Web3Storage, File } from 'web3.storage';
-import { ThreadID } from '@textile/hub';
+import { ThreadID, Where } from '@textile/hub';
 import formData from '../../middleware/form-data';
 import { verifyJWS } from '../../helpers/auth';
 import { getThreadDbClient, getUser } from '../../helpers/thread';
@@ -47,8 +47,6 @@ async function create(req, res) {
     const photoBuffer = fs.readFileSync(photo.path);
     const allSizes = await resizeImage(photoBuffer);
 
-    console.log(allSizes)
-
     // Upload photos
     const web3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
 
@@ -91,7 +89,7 @@ async function create(req, res) {
       updatedAt: new Date().toISOString(),
     };
 
-    console.log(photoDoc);
+    // console.log(photoDoc);
 
     const created = await threadClient.create(threadId, 'photos', [photoDoc]);
 
@@ -103,15 +101,12 @@ async function create(req, res) {
 }
 
 async function find(req, res) {
-  const { keyword } = req.query;
-
+  const { keyword = '' } = req.query;
   const client = await getThreadDbClient();
 
-  // const found = await client.delete(threadId, 'photos', ['bafybeigyr7pxdbgqolaux64keh7fls5wqeh3wxqjm5hmy4iz5us65umqfa',])
+  const photos = await client.find(threadId, 'photos', { tags: { $in: keyword.split(' ') } });
 
-  const found = await client.find(threadId, 'photos', { name: keyword });
-
-  res.status(200).json(found);
+  res.status(200).json(photos);
 }
 
 export default async function handler(req, res) {

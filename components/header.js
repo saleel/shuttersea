@@ -25,7 +25,7 @@ export default function Header(props) {
       <header className="header">
         <h1 className="logo">
           <Link href="/" passHref>
-            <img alt="ShutterSea" src="./logo.png" />
+            <img alt="ShutterSea" src="/logo.png" />
           </Link>
         </h1>
 

@@ -11,12 +11,15 @@ Backend is presently in NodeJS (NextJS) and hosted in Vercel. Planning to migrat
 
 ## Todo
 
-- User Auth
-- Image size conversion
-- Multi size downloads
-- EXIF Parsing
+- ~~User Auth~~
+- ~~Image size conversion~~
+- ~~Multi size downloads~~
+- ~~EXIF Parsing~~
+- Fix search results
 - Like Functionality
 - Add Views/Download counter
+- Add single photo page
+- Add author page
 - Add License, TOS and info pages
 
 
@@ -27,5 +30,4 @@ Below environment variables are required for the application to run. Add them to
 - THREAD_KEY
 - THREAD_SECRET
 - THREAD_ID
-- THREAD_COLLECTION
 - WEB3_STORAGE_TOKEN
