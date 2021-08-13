@@ -1,7 +1,18 @@
+import React from 'react';
+import { getUserName } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
 
 export default function PhotoGrid(props) {
   const { photo, onClose } = props;
+  const [userName, setUserName] = React.useState('');
+
+  React.useEffect(() => {
+    getUserName(photo.userId).then((name) => {
+      if (name) {
+        setUserName(name);
+      }
+    });
+  }, [photo]);
 
   return (
     <div className="modal is-active is-clipped">
@@ -52,7 +63,7 @@ export default function PhotoGrid(props) {
                 <span className="icon">
                   <i className="fas fa-user" />
                 </span>
-                <span className="is-size-6 mr-3">{photo.authorId}</span>
+                <span className="is-size-6 mr-3">{userName}</span>
 
                 <span className="icon">
                   <i className="fas fa-calendar" />
