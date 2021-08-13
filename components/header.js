@@ -3,10 +3,17 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Search from './search';
+// import { authenticate } from '../helpers/ceramic';
 
 export default function Header(props) {
   const { keyword } = props;
   const router = useRouter();
+
+  // React.useEffect(() => {
+  //   if (window.localStorage.getItem('userId') && !window.did) {
+  //     authenticate();
+  //   }
+  // }, []);
 
   return (
     <>

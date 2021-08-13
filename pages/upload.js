@@ -1,10 +1,19 @@
 import axios from 'axios';
 import React from 'react';
 import Header from '../components/header';
+import { useRouter } from 'next/router';
 
 export default function Upload() {
   const [selectedPhoto, setSelectedPhoto] = React.useState();
   const [isSubmitting, setIsSubmitting] = React.useState();
+
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!window.localStorage.getItem('userId')) {
+      router.push('/profile');
+    }
+  }, []);
 
   async function onSubmit(e) {
     e.preventDefault();

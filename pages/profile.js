@@ -1,23 +1,30 @@
 import React from 'react';
 import axios from 'axios';
-import Link from 'next/link';
 import Header from '../components/header';
 import { authenticate, getProfile, updateProfile } from '../helpers/ceramic';
 
 export default function Home() {
   const [isLoading, setIsLoading] = React.useState(true);
-  // const [isAuthenticated, setIsAuthenticated] = React.useState(window.did && window.did.authenticated());
   const [profile, setProfile] = React.useState({});
   const [showForm, setShowForm] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   React.useEffect(() => {
     (async function loadDefaults() {
-      await authenticate();
+      const { userId, publicKeys } = await authenticate();
+
+      await axios.post('/api/users', {
+        did: userId,
+        publicKeys,
+      });
+
       setIsLoading(false);
       const didProfile = await getProfile();
 
       if (didProfile) {
+        window.localStorage.setItem('userId', userId);
+        window.localStorage.setItem('userId', profile.name);
+
         setProfile(didProfile);
         setShowForm(true);
       }
@@ -27,8 +34,13 @@ export default function Home() {
   async function onSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
-    await updateProfile(profile);
-    setIsSubmitting(false);
+    try {
+      await updateProfile(profile);
+    } catch (error) {
+      window.alert(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -62,7 +74,6 @@ export default function Home() {
                     value={profile.name}
                     onChange={(e) => { setProfile((p) => ({ ...p, name: e.target.value })); }}
                     required
-                    name="title"
                     type="text"
                     placeholder="Display Name"
                   />
@@ -75,7 +86,14 @@ export default function Home() {
               <div className="field">
                 <label htmlFor="location" className="label">Description</label>
                 <div className="control has-icons-left">
-                  <input id="location" className="input" name="location" required type="text" placeholder="A small bio about yourself" />
+                  <input
+                    id="location"
+                    className="input"
+                    onChange={(e) => { setProfile((p) => ({ ...p, description: e.target.value })); }}
+                    value={profile.description}
+                    type="text"
+                    placeholder="A small bio about yourself"
+                  />
                   <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt" />
                   </span>

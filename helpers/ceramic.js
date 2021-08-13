@@ -50,12 +50,12 @@ export async function authenticate() {
     resolver: { ...KeyDidResolver.getResolver(), ...ThreeIdResolver.getResolver(ceramic) },
   });
 
-  window.did = did;
   ceramic.did = did;
-
   ceramic.did.setProvider(provider);
   const userId = await ceramic.did.authenticate();
+
   window.userId = userId;
+  window.did = did;
 
   // Get public keys for did
   // TODO: Find a better way to get public keys
@@ -70,6 +70,10 @@ export async function authenticate() {
 }
 
 export async function updateProfile(data) {
+  if (!window.userId) {
+    await authenticate();
+  }
+
   await idx.set('basicProfile', data);
 }
 
@@ -78,8 +82,10 @@ export async function getProfile() {
   return profile;
 }
 
-const jws = { payload: 'hello', signatures: [{ protected: 'eyJraWQiOiJkaWQ6MzpranpsNmN3ZTFqdzE0NXE4M2diOGZwejliMnFuYWU1aDR3cTRoa2FhdHpldHVvOW40N3VpOTdmdHlzbm1ib2k_dmVyc2lvbi1pZD0wI2thN1hZdFRKTlRZakJHcCIsImFsZyI6IkVTMjU2SyJ9', signature: 'aBx-zpkOMCaJTWFy4Ilx5nX_lkBfy4okStj2PRW-Bl9KTfuZn728CLUm4C1UVjSRvZOT6uew9-gJGLO_1gdbzw' }] };
-const decoder = new TextDecoder();
+export async function signData(data) {
+  const jws = await ceramic.did.createJWS(JSON.stringify(data));
+  return jwsToString(jws);
+}
 
 export async function verifySignature(data) {
   // const randomKey = ECKey.createECKey('P-521');

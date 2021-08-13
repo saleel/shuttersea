@@ -10,7 +10,6 @@ const {
   THREAD_ID,
   THREAD_KEY,
   THREAD_SECRET,
-  THREAD_COLLECTION,
 } = process.env;
 
 async function getClient() {
@@ -87,7 +86,7 @@ async function create(req, res) {
 
   console.log(photoDoc);
 
-  const created = await client.create(threadId, THREAD_COLLECTION, [photoDoc]);
+  const created = await client.create(threadId, 'photos', [photoDoc]);
   res.status(200).json(created);
 }
 
@@ -96,9 +95,9 @@ async function find(req, res) {
 
   const client = await getClient();
 
-  // const found = await client.delete(threadId, THREAD_COLLECTION, ['bafybeigyr7pxdbgqolaux64keh7fls5wqeh3wxqjm5hmy4iz5us65umqfa',])
+  // const found = await client.delete(threadId, 'photos', ['bafybeigyr7pxdbgqolaux64keh7fls5wqeh3wxqjm5hmy4iz5us65umqfa',])
 
-  const found = await client.find(threadId, THREAD_COLLECTION, { name: keyword });
+  const found = await client.find(threadId, 'photos', { name: keyword });
 
   res.status(200).json(found);
 }
