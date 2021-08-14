@@ -11,10 +11,12 @@ export default function Home() {
   const { photoId } = router.query;
 
   React.useEffect(() => {
-    (async function loadPhoto() {
-      const res = await axios.get(`/api/photos?id=${photoId}`);
-      setPhoto(res.data[0]);
-    }());
+    if (photoId) {
+      (async function loadPhoto() {
+        const res = await axios.get(`/api/photos?id=${photoId}`);
+        setPhoto(res.data[0]);
+      }());
+    }
   }, [photoId]);
 
   return (

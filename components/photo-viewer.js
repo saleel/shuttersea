@@ -56,6 +56,10 @@ export default function PhotoViewer(props) {
   }
 
   React.useEffect(() => {
+    if (!photo?.id) {
+      return;
+    }
+
     getProfileById(photo.userId).then((p) => {
       if (p) {
         setProfile(p);
