@@ -12,7 +12,7 @@ export default function PhotoGrid(props) {
       <div className="photo-grid">
         <div className="columns is-multiline">
           {photos.map((photo) => (
-            <div key={photo.originalCid} className="column mb-3">
+            <div key={photo.cid} className="column mb-3">
 
               <div
                 className="photo-card"

@@ -1,5 +1,6 @@
 import React from 'react';
-import { getUserName } from '../helpers/ceramic';
+import Link from 'next/link';
+import { getProfileById } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
 
 function getDownloadUrl(photo, size) {
@@ -9,12 +10,12 @@ function getDownloadUrl(photo, size) {
 
 export default function PhotoGrid(props) {
   const { photo, onClose } = props;
-  const [userName, setUserName] = React.useState('');
+  const [profile, setProfile] = React.useState('');
 
   React.useEffect(() => {
-    getUserName(photo.userId).then((name) => {
-      if (name) {
-        setUserName(name);
+    getProfileById(photo.userId).then((p) => {
+      if (p) {
+        setProfile(p);
       }
     });
   }, [photo]);
@@ -84,10 +85,16 @@ export default function PhotoGrid(props) {
                 </span>
                 <span className="is-size-6 mr-3">{photo.location}</span>
 
-                <span className="icon">
-                  <i className="fas fa-user" />
-                </span>
-                <span className="is-size-6 mr-3">{userName}</span>
+                {profile && (
+                  <>
+                    <span className="icon">
+                      <i className="fas fa-user" />
+                    </span>
+                    <Link passHref href={`/users/${photo.userId}`}>
+                      <span className="is-size-6 mr-3">{profile?.name}</span>
+                    </Link>
+                  </>
+                )}
 
                 <span className="icon">
                   <i className="fas fa-calendar" />

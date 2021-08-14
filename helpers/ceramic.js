@@ -65,7 +65,7 @@ export async function signData(data) {
   return jwsToString(jws);
 }
 
-export async function getUserName(did) {
+export async function getProfileById(did) {
   const profile = await idx.get('basicProfile', did);
-  return profile?.name;
+  return profile;
 }
