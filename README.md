@@ -24,11 +24,11 @@ Backend is presently in NodeJS (NextJS) and hosted in Vercel. Planning to migrat
 - ~~Multi size downloads~~
 - ~~EXIF Parsing~~
 - Fix search results
-- Like Functionality
-- Add Views/Download counter
+- ~~Like Functionality~~
+- ~~Add Views/Download counter~~
 - Add single photo page
-- Add author page
-- Add License, TOS and info pages
+- ~~Add author page~~
+- ~~Add License, TOS and info pages~~
 
 
 ## ENV

@@ -17,11 +17,10 @@ a {
 }
 
 .container {
-  min-height: 100vh;
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  flex-grow: 1;
 }
 
 .main {
@@ -197,7 +196,7 @@ h1.title {
   }
 }
 
-.photo-author {
+a, .photo-author {
   cursor: pointer;
 
   &:hover {
