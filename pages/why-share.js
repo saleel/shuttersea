@@ -1,8 +1,5 @@
-import axios from 'axios';
-import { useRouter } from 'next/router';
 import React from 'react';
 import Header from '../components/header';
-import { authenticate, signData } from '../helpers/ceramic';
 
 export default function Upload() {
   return (

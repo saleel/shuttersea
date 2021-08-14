@@ -44,8 +44,8 @@ export default function Home() {
     setIsSubmitting(true);
     try {
       await updateProfile(profile);
-    } catch (error) {
-      window.alert(error.message);
+    } catch (err2) {
+      window.alert(err2.message);
     } finally {
       setIsSubmitting(false);
     }

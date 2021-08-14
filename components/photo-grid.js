@@ -1,7 +1,6 @@
 import React from 'react';
 import { getPhotoUrl } from '../helpers/common';
 import PhotoModal from './photo-modal';
-import Image from 'next/image';
 
 export default function PhotoGrid(props) {
   const { photos } = props;

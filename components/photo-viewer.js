@@ -28,7 +28,7 @@ export default function PhotoViewer(props) {
   const [downloads, setDownloads] = React.useState('-');
   const [likes, setLikes] = React.useState('-');
   const [userLiked, setUserLiked] = React.useState();
-  const [isLiking, setIsLiking] = React.useState();
+  // const [isLiking, setIsLiking] = React.useState();
 
   function updateLikes() {
     axios.get('/api/actions', {
@@ -287,18 +287,18 @@ export default function PhotoViewer(props) {
             type="button"
             className="button photo-modal-info"
             onClick={onLikeClick}
-            disabled={isLiking}
+            // disabled={isLiking}
           >
             <p>
-              {isLiking ? (
+              {/* {isLiking ? (
                 <span className="icon is-small">
                   <i className="fas fa-spinner fa-spin" />
                 </span>
-              ) : (
-                <span className="icon is-small">
-                  <i className="fas fa-heart" />
-                </span>
-              )}
+              ) : ( */}
+              <span className="icon is-small">
+                <i className="fas fa-heart" />
+              </span>
+              {/* )} */}
             </p>
             <p className="is-size-7">{likes}</p>
           </button>

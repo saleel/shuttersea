@@ -12,5 +12,8 @@
     "@next/next/no-img-element": [0],
     "max-len": [0],
     "jsx-a11y/click-events-have-key-events": [0],
-    "no-underscore-dangle": [0]
+    "no-underscore-dangle": [0],
+    "no-console": [0],
+    "no-alert": [0],
+    "react-hooks/exhaustive-deps": [0]
 }}

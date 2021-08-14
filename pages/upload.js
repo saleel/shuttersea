@@ -22,6 +22,7 @@ export default function Upload() {
       }
     }());
 
+    // eslint-disable-next-line global-require
     require('@creativebulma/bulma-tagsinput').default.attach();
   }, []);
 
