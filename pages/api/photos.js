@@ -124,17 +124,21 @@ async function find(req, res) {
         operation: 0,
         value: { string: userId },
       },
-      keyword && {
-        fieldPath: 'tags',
-        operation: 0,
-        value: { string: keyword },
-      },
+      // keyword && {
+      //   fieldPath: 'tags',
+      //   operation: 0,
+      //   value: { string: keyword },
+      // },
     ].filter(Boolean),
   };
 
   const photos = await client.find(threadId, 'photos', query);
 
-  res.status(200).json(photos);
+  // TODO: Fix this
+  // Really inefficient way of finding filter by tags. Research on $in operator equivalent of ThreadDB.
+  const filtered = photos.filter((p) => p.tags.includes(keyword));
+
+  res.status(200).json(filtered);
 }
 
 export default async function handler(req, res) {

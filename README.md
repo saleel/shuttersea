@@ -28,7 +28,7 @@ Backend is presently in NodeJS (NextJS) and hosted in Vercel. Planning to migrat
 - ~~Add single photo page~~
 - ~~Add author page~~
 - ~~Add License, TOS and info pages~~
-- Fix search results
+- ~~Fix search results~~
 
 
 ## ENV
