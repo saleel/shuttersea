@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { getProfileById } from '../helpers/ceramic';
+import axios from 'axios';
+import { authenticate, getProfileById, signData } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
 
 function getDownloadUrl(photo, size) {
@@ -8,9 +9,43 @@ function getDownloadUrl(photo, size) {
   return `/api/download?photoId=${photo._id}&size=${size}`;
 }
 
+// A small hack to prevent lot of views firing
+window.viewedPhotos = window.viewedPhotos || [];
+
 export default function PhotoGrid(props) {
   const { photo, onClose } = props;
+
   const [profile, setProfile] = React.useState('');
+  const [views, setViews] = React.useState('-');
+  const [downloads, setDownloads] = React.useState('-');
+  const [likes, setLikes] = React.useState('-');
+  const [userLiked, setUserLiked] = React.useState();
+  const [isLiking, setIsLiking] = React.useState();
+
+  function updateLikes() {
+    axios.get('/api/actions', {
+      params: {
+        photoId: photo._id,
+        action: 'like',
+      },
+    }).then(({ data }) => {
+      setLikes(data.count);
+    });
+
+    if (window.userId) {
+      axios.get('/api/actions', {
+        params: {
+          photoId: photo._id,
+          action: 'like',
+          userId: window.userId,
+        },
+      }).then(({ data }) => {
+        if (data.count >= 1) {
+          setUserLiked(true);
+        }
+      });
+    }
+  }
 
   React.useEffect(() => {
     getProfileById(photo.userId).then((p) => {
@@ -18,7 +53,64 @@ export default function PhotoGrid(props) {
         setProfile(p);
       }
     });
+
+    if (!window.viewedPhotos.includes(photo._id)) {
+      axios.post('/api/actions', {
+        photoId: photo._id,
+        action: 'view',
+      });
+
+      window.viewedPhotos.push(photo._id);
+    }
+
+    axios.get('/api/actions', {
+      params: {
+        photoId: photo._id,
+        action: 'view',
+      },
+    }).then(({ data }) => {
+      setViews(data.count);
+    });
+
+    axios.get('/api/actions', {
+      params: {
+        photoId: photo._id,
+        action: 'download',
+      },
+    }).then(({ data }) => {
+      setDownloads(data.count);
+    });
+
+    updateLikes();
   }, [photo]);
+
+  async function onLikeClick() {
+    try {
+      setIsLiking(true);
+
+      if (!window.userId) {
+        await authenticate();
+      }
+
+      const data = {
+        photoId: photo._id,
+        action: userLiked ? 'unlike' : 'like',
+        userId: window.userId,
+      };
+
+      const signature = await signData(data);
+
+      data.signature = signature;
+
+      await axios.post('/api/actions', data);
+
+      updateLikes();
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLiking(false);
+    }
+  }
 
   return (
     <div className="modal is-active is-clipped">
@@ -106,22 +198,33 @@ export default function PhotoGrid(props) {
 
             <div className="is-flex">
               <div className="photo-modal-info mr-2">
-                <p className="is-size-5">{photo.downloads}</p>
+                <p className="is-size-5">{downloads}</p>
                 <p className="is-size-7">Downloads</p>
               </div>
 
               <div className="photo-modal-info mr-2">
-                <p className="is-size-5">{photo.downloads}</p>
+                <p className="is-size-5">{views}</p>
                 <p className="is-size-7">Views</p>
               </div>
 
-              <button type="button" className="button photo-modal-info">
+              <button
+                type="button"
+                className="button photo-modal-info"
+                onClick={onLikeClick}
+                disabled={isLiking}
+              >
                 <p>
-                  <span className="icon is-small">
-                    <i className="fas fa-heart" />
-                  </span>
+                  {isLiking ? (
+                    <span className="icon is-small">
+                      <i className="fas fa-spinner fa-spin" />
+                    </span>
+                  ) : (
+                    <span className="icon is-small">
+                      <i className="fas fa-heart" />
+                    </span>
+                  )}
                 </p>
-                <p className="is-size-7">{photo.downloads}</p>
+                <p className="is-size-7">{likes}</p>
               </button>
 
             </div>

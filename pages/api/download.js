@@ -26,6 +26,11 @@ async function find(req, res) {
   https.get(url, (res2) => {
     res2.pipe(res);
   });
+
+  client.create(threadId, 'actions', [{
+    action: 'download',
+    photoId,
+  }]);
 }
 
 export default async function handler(req, res) {

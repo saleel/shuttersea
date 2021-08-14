@@ -22,6 +22,7 @@ async function setup() {
     threadId = await client.newDB(ThreadID.fromRandom());
   }
 
+  // await client.deleteCollection(threadId, 'actions')
   // await client.deleteCollection(threadId, 'photos')
   // const ids = await client.find(threadId, 'photos', {});
   // await client.delete(threadId, 'photos', ids.map((a) => a._id));
@@ -50,6 +51,7 @@ async function setup() {
           fileSize: { type: 'number' },
           fileType: { type: 'string' },
           info: { type: 'object' },
+          signature: { type: 'string' },
           createdAt: { type: 'string', format: 'date-time' },
           updatedAt: { type: 'string', format: 'date-time' },
         },
@@ -77,6 +79,26 @@ async function setup() {
     });
 
     console.log('Created users');
+  }
+
+  if (!collections.some((c) => c.name === 'actions')) {
+    await client.newCollection(threadId, {
+      name: 'actions',
+      schema: {
+        $schema: 'http://json-schema.org/draft-07/schema#',
+        title: 'Actions',
+        type: 'object',
+        properties: {
+          _id: { type: 'string' },
+          action: { type: 'string' },
+          photoId: { type: 'string' },
+          userId: { type: 'string' },
+          signature: { type: 'string' },
+        },
+      },
+    });
+
+    console.log('Created actions');
   }
 
   console.log('Done');
