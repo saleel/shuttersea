@@ -7,7 +7,7 @@ import { getProfileById } from '../../helpers/ceramic';
 
 export default function Home() {
   const [user, setUser] = React.useState();
-  const [photos, setPhotos] = React.useState([]);
+  const [photos, setPhotos] = React.useState();
 
   const router = useRouter();
   const { userId } = router.query;

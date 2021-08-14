@@ -1,4 +1,5 @@
 import React from 'react';
+import ContentLoader from 'react-content-loader';
 import { getPhotoUrl } from '../helpers/common';
 import PhotoModal from './photo-modal';
 
@@ -6,6 +7,30 @@ export default function PhotoGrid(props) {
   const { photos } = props;
 
   const [selectedPhoto, setSelectedPhoto] = React.useState();
+
+  if (!photos) {
+    return (
+      <div className="photo-grid">
+        <div className="columns is-multiline">
+          {[1, 2, 3].map((a) => (
+            <div key={a} className="column mb-3">
+              <ContentLoader
+                speed={2}
+                width={400}
+                height={300}
+                viewBox="0 0 400 300"
+                backgroundColor="#f3f3f3"
+                foregroundColor="#ecebeb"
+                {...props}
+              >
+                <rect x="0" y="0" rx="3" ry="3" width="400" height="300" />
+              </ContentLoader>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

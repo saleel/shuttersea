@@ -6,7 +6,7 @@ import Header from '../components/header';
 import Search from '../components/search';
 
 export default function Home() {
-  const [photos, setPhotos] = React.useState([]);
+  const [photos, setPhotos] = React.useState();
 
   React.useEffect(() => {
     (async function loadDefaults() {

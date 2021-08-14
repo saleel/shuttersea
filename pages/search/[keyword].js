@@ -5,7 +5,7 @@ import PhotoGrid from '../../components/photo-grid';
 import Header from '../../components/header';
 
 export default function Home() {
-  const [photos, setPhotos] = React.useState([]);
+  const [photos, setPhotos] = React.useState();
   const router = useRouter();
   const { keyword } = router.query;
 
