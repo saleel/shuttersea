@@ -71,7 +71,9 @@ export default function PhotoGrid(props) {
             </div>
           ))}
 
-          <div className="column" />
+          {(photos.length % 3 !== 0) && (
+            <div className="column" />
+          )}
 
         </div>
       </div>
