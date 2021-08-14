@@ -139,50 +139,50 @@ export default function PhotoViewer(props) {
     <div className="photo-container">
 
       <header className="photo-modal-header">
-        {photo.info?.image && (
-        <div className="dropdown is-hoverable">
-          <div className="dropdown-trigger">
-            <button type="button" className="button" aria-haspopup="true" aria-controls="info-dropdown">
-              <span>Info</span>
-              <span className="icon is-small">
-                <i className="fas fa-angle-down" aria-hidden="true" />
-              </span>
-            </button>
-          </div>
-          <div className="dropdown-menu" id="info-dropdown" role="menu" style={{ minWidth: '27rem' }}>
-            <div className="dropdown-content">
-              <div className="dropdown-item">
-                <div className="">
-                  {Object.keys(photo.info.image).map((key) => (
-                    <p key={key}>
-                      <span className="has-text-weight-semibold">
-                        {key}
-                      </span>
-                      <span>
-                        {': '}
-                        {photo.info.image[key]}
-                      </span>
-                    </p>
-                  ))}
-                  {Object.keys(photo.info.exif || {}).map((key) => (
-                    <p key={key}>
-                      <span className="has-text-weight-semibold">
-                        {key}
-                      </span>
-                      <span>
-                        {' : '}
-                        {photo.info.exif[key]}
-                      </span>
-                    </p>
-                  ))}
+
+        <div>
+          {photo.info?.image && (
+            <div className="dropdown is-hoverable mr-5">
+              <div className="dropdown-trigger">
+                <button type="button" className="button" aria-haspopup="true" aria-controls="info-dropdown">
+                  <span>Info</span>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true" />
+                  </span>
+                </button>
+              </div>
+              <div className="dropdown-menu" id="info-dropdown" role="menu" style={{ minWidth: '27rem' }}>
+                <div className="dropdown-content">
+                  <div className="dropdown-item">
+                    <div className="">
+                      {Object.keys(photo.info.image).map((key) => (
+                        <p key={key}>
+                          <span className="has-text-weight-semibold">
+                            {key}
+                          </span>
+                          <span>
+                            {': '}
+                            {photo.info.image[key]}
+                          </span>
+                        </p>
+                      ))}
+                      {Object.keys(photo.info.exif || {}).map((key) => (
+                        <p key={key}>
+                          <span className="has-text-weight-semibold">
+                            {key}
+                          </span>
+                          <span>
+                            {' : '}
+                            {photo.info.exif[key]}
+                          </span>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        )}
-
-        <div>
+          )}
 
           <FacebookShareButton className="p-1" url={photoUrl}>
             <FacebookIcon size={32} round />
@@ -195,6 +195,10 @@ export default function PhotoViewer(props) {
           <WhatsappShareButton className="p-1" url={photoUrl}>
             <WhatsappIcon size={32} round />
           </WhatsappShareButton>
+
+        </div>
+
+        <div>
 
           <div className="dropdown is-hoverable">
             <div className="dropdown-trigger">
