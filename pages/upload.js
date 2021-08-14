@@ -141,7 +141,7 @@ export default function Upload() {
                     type="text"
                     data-type="tags"
                     placeholder="Add tags"
-                    dataType="tags"
+                    datatype="tags"
                   />
                   <span className="icon is-small is-left">
                     <i className="fas fa-tags" />
@@ -149,7 +149,13 @@ export default function Upload() {
                 </div>
               </div>
 
-              <input type="submit" disabled={isSubmitting} className={`button is-link mt-4${isSubmitting ? ' is-loading' : ''}`} />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`button is-link mt-4 ${isSubmitting ? 'is-loading' : ''}`}
+              >
+                Submit
+              </button>
             </div>
 
           </form>
