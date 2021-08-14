@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Header from '../components/header';
@@ -20,7 +21,9 @@ export default function Upload() {
         }
       }
     }());
-  });
+
+    require('@creativebulma/bulma-tagsinput').default.attach();
+  }, []);
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -40,7 +43,7 @@ export default function Upload() {
 
       formData.set('signature', signature);
 
-      await axios.post('/api/photos', formData, {
+      const response = await axios.post('/api/photos', formData, {
         headers: {
           'content-type': 'multipart/form-data',
         },
@@ -49,7 +52,7 @@ export default function Upload() {
       setIsSubmitting(false);
 
       // eslint-disable-next-line no-undef
-      window.location.replace('/');
+      router.push(`photo/${response.data[0]}`);
     } catch (error) {
       window.alert(`Error: ${error.message}`);
     } finally {
@@ -64,7 +67,8 @@ export default function Upload() {
 
         <div className="is-flex is-flex-direction-column mt-6">
 
-          <h2 className="title is-4 mb-6">Submit new image to ShutterSea</h2>
+          <h2 className="title is-4 mb-2">Submit new image to ShutterSea</h2>
+          <Link passHref href="/license"><span className="mb-6 link">View License</span></Link>
 
           <form onSubmit={onSubmit}>
 
@@ -129,7 +133,15 @@ export default function Upload() {
               <div className="field">
                 <label htmlFor="tags" className="label">Tags</label>
                 <div className="control has-icons-left">
-                  <input id="tags" className="input" name="tags" type="text" data-type="tags" placeholder="Add tags" />
+                  <input
+                    id="tags"
+                    className="input"
+                    name="tags"
+                    type="text"
+                    data-type="tags"
+                    placeholder="Add tags"
+                    dataType="tags"
+                  />
                   <span className="icon is-small is-left">
                     <i className="fas fa-tags" />
                   </span>

@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
   font-size: 16px;
 }
 
@@ -75,7 +75,6 @@ h1.title {
   font-size: 1rem;
 }
 
-
 .photos-grid {
   width: 100%;
   padding: 1rem;
@@ -130,7 +129,7 @@ h1.title {
     line-height: 1.5rem;
     font-weight: 500;
   }
-  
+
   .photo-meta-location {
     color: #fff;
     font-size: 0.9rem;
@@ -138,12 +137,22 @@ h1.title {
 }
 
 .modal-background {
-  background-color: rgba(10,10,10,.5)
+  background-color: rgba(10, 10, 10, 0.5);
 }
 
 .photo-modal {
-  width: 90vw;
-  height: 90vh;
+  .photo-container {
+    width: 90vw;
+    height: 90vh;
+  }
+
+  .photo-modal-image img {
+    max-width: 900px;
+    max-height: 675px;
+  }
+}
+
+.photo-container {
   background-color: white;
   border: 5px;
   border-radius: 5px;
@@ -152,6 +161,7 @@ h1.title {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 100%;
 
   header {
     display: flex;
@@ -174,10 +184,11 @@ h1.title {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  min-width: 600px;
 
   img {
-    max-width: 900px;
-    max-height: 675px;
+    max-width: 1200px;
+    max-height: 700px;
   }
 }
 
@@ -196,11 +207,21 @@ h1.title {
   }
 }
 
-a, .photo-author {
+a,
+.link,
+.photo-author {
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
     color: blueviolet;
   }
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.tags-input {
+  padding-left: 3rem;
 }

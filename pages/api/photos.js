@@ -109,11 +109,16 @@ async function create(req, res) {
 }
 
 async function find(req, res) {
-  const { keyword = '', userId } = req.query;
+  const { id, keyword = '', userId } = req.query;
   const client = await getThreadDbClient();
 
   const query = {
     ands: [
+      id && {
+        fieldPath: '_id',
+        operation: 0,
+        value: { string: id },
+      },
       userId && {
         fieldPath: 'userId',
         operation: 0,
