@@ -28,7 +28,7 @@ export default function PhotoViewer(props) {
   const [downloads, setDownloads] = React.useState('-');
   const [likes, setLikes] = React.useState('-');
   const [userLiked, setUserLiked] = React.useState();
-  // const [isLiking, setIsLiking] = React.useState();
+  const [isDeleting, setIsDeleting] = React.useState();
 
   function updateLikes() {
     axios.get('/api/actions', {
@@ -128,8 +128,22 @@ export default function PhotoViewer(props) {
       updateLikes();
     } catch (error) {
       alert(error.message);
+    }
+  }
+
+  async function onDeleteClick() {
+    try {
+      if (window.confirm('Are you sure you want to delete this photo?')) {
+        setIsDeleting(true);
+        const signature = await signData({ action: 'delete', photoId: photo.id });
+        await axios.delete('/api/photos', { params: { id: photo._id, signature } });
+        router.push('/');
+        window.location.reload();
+      }
+    } catch (error) {
+      alert(error.message);
     } finally {
-      // setIsLiking(false);
+      setIsDeleting(false);
     }
   }
 
@@ -199,6 +213,19 @@ export default function PhotoViewer(props) {
         </div>
 
         <div>
+
+          {window.userId && window.userId === photo.userId && (
+            <button
+              disabled={isDeleting}
+              type="button"
+              className="button is-secondary mr-3"
+              onClick={onDeleteClick}
+            >
+              <span className="icon is-small">
+                <i className="fas fa-trash" aria-hidden="true" />
+              </span>
+            </button>
+          )}
 
           <div className="dropdown is-hoverable">
             <div className="dropdown-trigger">

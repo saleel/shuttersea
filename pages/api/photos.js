@@ -24,6 +24,8 @@ function runMiddleware(req, res, fn) {
   });
 }
 
+const web3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
+
 const threadId = ThreadID.fromString(THREAD_ID);
 
 async function create(req, res) {
@@ -48,8 +50,6 @@ async function create(req, res) {
     const allSizes = await resizeImage(photoBuffer);
 
     // Upload photos
-    const web3StorageClient = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
-
     const photoFiles = [];
     // eslint-disable-next-line no-restricted-syntax
     for (const [size, buffer] of Object.entries(allSizes)) {
@@ -147,11 +147,31 @@ async function find(req, res) {
   res.status(200).json(photos);
 }
 
+async function remove(req, res) {
+  const { signature, id: photoId } = req.query;
+  const threadClient = await getThreadDbClient();
+
+  const photo = await threadClient.findByID(threadId, 'photos', photoId);
+
+  const user = await getUser(threadClient, threadId, photo.userId);
+  await verifyJWS(signature, user.publicKeys);
+
+  await threadClient.delete(threadId, 'photos', [photo._id]);
+
+  // Delete from IPFS
+  // TODO: Enable this when web3 storage implements this
+  // await web3StorageClient.delete(photo.cid);
+
+  res.status(200).json(photo);
+}
+
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     await find(req, res);
   } else if (req.method === 'POST') {
     await create(req, res);
+  } else if (req.method === 'DELETE') {
+    await remove(req, res);
   } else {
     res.status(400).json({ error: 'Invalid method' });
   }

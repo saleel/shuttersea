@@ -27,12 +27,16 @@ export default function Header(props) {
         )}
 
         <div>
-          <Link href="/profile" passHref>
-            <div className="button is-secondary mr-3">Profile</div>
+          <Link href="/upload" passHref>
+            <div className="button is-dark mr-2">Submit Photo</div>
           </Link>
 
-          <Link href="/upload" passHref>
-            <div className="button is-dark">Submit Photo</div>
+          <Link href="/profile" passHref>
+            <div className="button is-secondary">
+              <span className="icon is-small">
+                <i className="fas fa-user" aria-hidden="true" />
+              </span>
+            </div>
           </Link>
         </div>
       </header>
