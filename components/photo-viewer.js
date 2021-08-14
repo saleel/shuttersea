@@ -171,29 +171,35 @@ export default function PhotoViewer(props) {
       <footer className="photo-modal-footer">
 
         <div>
-          <p className="title is-4 mb-2">{photo.title}</p>
+          <div className="is-flex is-align-items-flex-end mb-3">
+            <p className="title is-4 mb-0 mr-4">{photo.title}</p>
 
-          <div>
+            {profile && (
+              <div className="">
+                <span className="icon">
+                  <i className="fas fa-user" />
+                </span>
+                <Link passHref href={`/users/${photo.userId}`}>
+                  <span className="photo-author is-size-6 mr-3">{profile?.name}</span>
+                </Link>
+              </div>
+            )}
+          </div>
+          <div style={{ marginLeft: '-5px' }}>
             <span className="icon">
               <i className="fas fa-map-marker" />
             </span>
             <span className="is-size-6 mr-3">{photo.location}</span>
 
-            {profile && (
-            <>
-              <span className="icon">
-                <i className="fas fa-user" />
-              </span>
-              <Link passHref href={`/users/${photo.userId}`}>
-                <span className="photo-author is-size-6 mr-3">{profile?.name}</span>
-              </Link>
-            </>
-            )}
-
             <span className="icon">
               <i className="fas fa-calendar" />
             </span>
-            <span className="is-size-6">{new Date(photo.createdAt).toDateString()}</span>
+            <span className="is-size-6 mr-3">{new Date(photo.createdAt).toDateString()}</span>
+
+            <span className="icon">
+              <i className="fas fa-tags mr-1" />
+            </span>
+            <span className="is-size-6">{photo.tags.join(', ')}</span>
           </div>
 
         </div>
