@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className="container">
+      <div className="container" style={{ marginTop: '-2rem' }}>
         {photo ? (
           <PhotoViewer photo={photo} />
         ) : (

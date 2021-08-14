@@ -2,6 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  TwitterShareButton,
+  TwitterIcon,
+  FacebookIcon,
+  WhatsappIcon,
+} from 'react-share';
 import { authenticate, getProfileById, signData } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
 
@@ -88,7 +96,14 @@ export default function PhotoViewer(props) {
 
   async function onLikeClick() {
     try {
-      setIsLiking(true);
+      // setIsLiking(true);
+      setLikes((c) => {
+        if (userLiked) {
+          return c - 1;
+        }
+        return c + 1;
+      });
+      setUserLiked((l) => !l);
 
       if (!window.userId) {
         try {
@@ -114,15 +129,17 @@ export default function PhotoViewer(props) {
     } catch (error) {
       alert(error.message);
     } finally {
-      setIsLiking(false);
+      // setIsLiking(false);
     }
   }
+
+  const photoUrl = `${window.location.origin}/photo/${photo?._id}`;
 
   return (
     <div className="photo-container">
 
       <header className="photo-modal-header">
-        {photo.info && (
+        {photo.info?.image && (
         <div className="dropdown is-hoverable">
           <div className="dropdown-trigger">
             <button type="button" className="button" aria-haspopup="true" aria-controls="info-dropdown">
@@ -147,7 +164,7 @@ export default function PhotoViewer(props) {
                       </span>
                     </p>
                   ))}
-                  {Object.keys(photo.info.exif).map((key) => (
+                  {Object.keys(photo.info.exif || {}).map((key) => (
                     <p key={key}>
                       <span className="has-text-weight-semibold">
                         {key}
@@ -167,14 +184,17 @@ export default function PhotoViewer(props) {
 
         <div>
 
-          <button disabled type="button" className="button is-light is-normal mr-3">
-            <span className="icon">
-              <i className="fas fa-share" />
-            </span>
-            <span>
-              Share
-            </span>
-          </button>
+          <FacebookShareButton className="p-1" url={photoUrl}>
+            <FacebookIcon size={32} round />
+          </FacebookShareButton>
+
+          <TwitterShareButton className="p-1" url={photoUrl}>
+            <TwitterIcon size={32} round />
+          </TwitterShareButton>
+
+          <WhatsappShareButton className="p-1" url={photoUrl}>
+            <WhatsappIcon size={32} round />
+          </WhatsappShareButton>
 
           <div className="dropdown is-hoverable">
             <div className="dropdown-trigger">
