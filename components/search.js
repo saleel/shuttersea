@@ -7,7 +7,13 @@ export default function Search(props) {
   const router = useRouter();
 
   return (
-    <form className="search" onSubmit={() => { router.push(`/search/${keyword}`); }}>
+    <form
+      className="search"
+      onSubmit={(e) => {
+        e.preventDefault();
+        router.push(`/search/${keyword}`);
+      }}
+    >
       <div className="control has-icons-left has-icons-right">
         <input
           className={`input is-rounded ${(large ? 'is-medium' : '')}`}

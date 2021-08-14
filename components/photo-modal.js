@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import { authenticate, getProfileById, signData } from '../helpers/ceramic';
 import { getPhotoUrl } from '../helpers/common';
@@ -9,11 +10,10 @@ function getDownloadUrl(photo, size) {
   return `/api/download?photoId=${photo._id}&size=${size}`;
 }
 
-// A small hack to prevent lot of views firing
-window.viewedPhotos = window.viewedPhotos || [];
-
 export default function PhotoGrid(props) {
   const { photo, onClose } = props;
+
+  const router = useRouter();
 
   const [profile, setProfile] = React.useState('');
   const [views, setViews] = React.useState('-');
@@ -54,6 +54,8 @@ export default function PhotoGrid(props) {
       }
     });
 
+    // A small hack to prevent lot of views firing
+    window.viewedPhotos = window.viewedPhotos || [];
     if (!window.viewedPhotos.includes(photo._id)) {
       axios.post('/api/actions', {
         photoId: photo._id,
@@ -89,7 +91,11 @@ export default function PhotoGrid(props) {
       setIsLiking(true);
 
       if (!window.userId) {
-        await authenticate();
+        try {
+          await authenticate();
+        } catch (error) {
+          router.push('/profile');
+        }
       }
 
       const data = {
@@ -183,7 +189,7 @@ export default function PhotoGrid(props) {
                       <i className="fas fa-user" />
                     </span>
                     <Link passHref href={`/users/${photo.userId}`}>
-                      <span className="is-size-6 mr-3">{profile?.name}</span>
+                      <span className="photo-author is-size-6 mr-3">{profile?.name}</span>
                     </Link>
                   </>
                 )}

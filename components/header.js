@@ -3,17 +3,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Search from './search';
-// import { authenticate } from '../helpers/ceramic';
 
 export default function Header(props) {
   const { keyword } = props;
   const router = useRouter();
-
-  // React.useEffect(() => {
-  //   if (window.localStorage.getItem('userId') && !window.did) {
-  //     authenticate();
-  //   }
-  // }, []);
 
   return (
     <>
@@ -34,12 +27,12 @@ export default function Header(props) {
         )}
 
         <div>
-          <Link href="/upload" passHref>
-            <div className="button is-dark mr-3">Submit Photo</div>
+          <Link href="/profile" passHref>
+            <div className="button is-secondary mr-3">Profile</div>
           </Link>
 
-          <Link href="/profile" passHref>
-            <div className="button is-dark">Your Profile</div>
+          <Link href="/upload" passHref>
+            <div className="button is-dark">Submit Photo</div>
           </Link>
         </div>
       </header>

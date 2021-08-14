@@ -24,7 +24,15 @@ async function create(req, res) {
 
   const client = await getClient();
 
-  const existing = await client.find(threadId, 'users', { did });
+  const existing = await client.find(threadId, 'users', {
+    ands: [
+      {
+        fieldPath: 'did',
+        operation: 0,
+        value: { string: did },
+      },
+    ],
+  });
 
   if (existing.length) {
     res.status(200).json(existing[0]);

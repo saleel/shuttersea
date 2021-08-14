@@ -5,7 +5,6 @@ const {
   THREAD_SECRET,
 } = process.env;
 
-
 export async function getThreadDbClient() {
   const client = await Client.withKeyInfo({
     key: THREAD_KEY,
@@ -16,7 +15,15 @@ export async function getThreadDbClient() {
 }
 
 export async function getUser(threadClient, threadId, did) {
-  const users = await threadClient.find(threadId, 'users', { did });
+  const users = await threadClient.find(threadId, 'users', {
+    ands: [
+      {
+        fieldPath: 'did',
+        operation: 0,
+        value: { string: did },
+      },
+    ],
+  });
   if (!users.length) {
     throw new Error('Invalid user');
   }

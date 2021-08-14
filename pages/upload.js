@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import React from 'react';
 import Header from '../components/header';
 import { authenticate, signData } from '../helpers/ceramic';
@@ -6,6 +7,20 @@ import { authenticate, signData } from '../helpers/ceramic';
 export default function Upload() {
   const [selectedPhoto, setSelectedPhoto] = React.useState();
   const [isSubmitting, setIsSubmitting] = React.useState();
+
+  const router = useRouter();
+
+  React.useEffect(() => {
+    (async function ensureAuth() {
+      if (!window.userId) {
+        try {
+          await authenticate();
+        } catch (error) {
+          router.push('/profile');
+        }
+      }
+    }());
+  });
 
   async function onSubmit(e) {
     e.preventDefault();

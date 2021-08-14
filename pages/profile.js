@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import axios from 'axios';
 import Header from '../components/header';
 import { authenticate, getProfile, updateProfile } from '../helpers/ceramic';
@@ -7,24 +8,31 @@ export default function Home() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [profile, setProfile] = React.useState({});
   const [showForm, setShowForm] = React.useState(false);
+  const [error, setError] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   React.useEffect(() => {
     (async function loadDefaults() {
-      const { userId, publicKeys } = await authenticate();
+      let userId;
+      let publicKeys;
 
-      await axios.post('/api/users', {
-        did: userId,
-        publicKeys,
-      });
+      if (!window.userId) {
+        try {
+          ({ userId, publicKeys } = await authenticate());
+          await axios.post('/api/users', {
+            did: userId,
+            publicKeys,
+          });
+        } catch (e) {
+          setError(e.message);
+          return;
+        }
+      }
 
       setIsLoading(false);
       const didProfile = await getProfile();
 
       if (didProfile) {
-        window.localStorage.setItem('userId', userId);
-        window.localStorage.setItem('userId', profile.name);
-
         setProfile(didProfile);
         setShowForm(true);
       }
@@ -50,14 +58,27 @@ export default function Home() {
 
         <main className="main">
 
-          <h1 className="title">Profile</h1>
+          <h1 className="title">{error ? 'Login' : 'Profile'}</h1>
 
-          {isLoading && (
+          {isLoading && !error && (
           <p className="description">
             <span className="icon is-small is-left mr-3">
               <i className="fas fa-spinner fa-spin" />
             </span>
             Logging in using your wallet...
+          </p>
+          )}
+
+          {error && (
+          <p className="description">
+            Some error ocurred while trying to log in.
+            <br />
+            ShutterSea uses decentralized identity for authentication.
+            Please install
+            {' '}
+            <Link href="https://metamask.io">MetaMask</Link>
+            {' '}
+            plugin and create a wallet to continue
           </p>
           )}
 

@@ -196,3 +196,12 @@ h1.title {
     height: 30px !important;
   }
 }
+
+.photo-author {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: blueviolet;
+  }
+}

@@ -67,7 +67,15 @@ async function create(req, res) {
     // Parse exif Data
     const info = await parseImageInfo(photoBuffer);
 
-    const existing = await threadClient.find(threadId, 'photos', { cid });
+    const existing = await threadClient.find(threadId, 'photos', {
+      ands: [
+        {
+          fieldPath: 'cid',
+          operation: 0,
+          value: { string: cid },
+        },
+      ],
+    });
     if (existing.length) {
       throw new Error('This image was already uploaded before');
     }
@@ -101,10 +109,25 @@ async function create(req, res) {
 }
 
 async function find(req, res) {
-  const { keyword = '' } = req.query;
+  const { keyword = '', userId } = req.query;
   const client = await getThreadDbClient();
 
-  const photos = await client.find(threadId, 'photos', { tags: { $in: keyword.split(' ') } });
+  const query = {
+    ands: [
+      userId && {
+        fieldPath: 'userId',
+        operation: 0,
+        value: { string: userId },
+      },
+      keyword && {
+        fieldPath: 'tags',
+        operation: 0,
+        value: { string: keyword },
+      },
+    ].filter(Boolean),
+  };
+
+  const photos = await client.find(threadId, 'photos', query);
 
   res.status(200).json(photos);
 }
