@@ -122,43 +122,87 @@ export default function PhotoViewer(props) {
     <div className="photo-container">
 
       <header className="photo-modal-header">
-
-        <button disabled type="button" className="button is-light is-normal mr-3">
-          <span className="icon">
-            <i className="fas fa-share" />
-          </span>
-          <span>
-            Share
-          </span>
-        </button>
-
+        {photo.info && (
         <div className="dropdown is-hoverable">
           <div className="dropdown-trigger">
-            <button type="button" className="button is-light is-link" aria-haspopup="true" aria-controls="dropdown-menu">
-              <span>Download</span>
+            <button type="button" className="button" aria-haspopup="true" aria-controls="info-dropdown">
+              <span>Info</span>
               <span className="icon is-small">
                 <i className="fas fa-angle-down" aria-hidden="true" />
               </span>
             </button>
           </div>
-          <div className="dropdown-menu" id="dropdown-menu" role="menu">
+          <div className="dropdown-menu" id="info-dropdown" role="menu" style={{ minWidth: '27rem' }}>
             <div className="dropdown-content">
-              {(photo.availableSizes || ['original']).map((size) => (
-                <a
-                  key={size}
-                  target="_blank"
-                  rel="nofollow noreferrer"
-                  href={getDownloadUrl(photo, size)}
-                  className="dropdown-item"
-                  style={{ textTransform: 'capitalize' }}
-                >
-                  {size}
-                </a>
-              ))}
+              <div className="dropdown-item">
+                <div className="">
+                  {Object.keys(photo.info.image).map((key) => (
+                    <p key={key}>
+                      <span className="has-text-weight-semibold">
+                        {key}
+                      </span>
+                      <span>
+                        {': '}
+                        {photo.info.image[key]}
+                      </span>
+                    </p>
+                  ))}
+                  {Object.keys(photo.info.exif).map((key) => (
+                    <p key={key}>
+                      <span className="has-text-weight-semibold">
+                        {key}
+                      </span>
+                      <span>
+                        {' : '}
+                        {photo.info.exif[key]}
+                      </span>
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        )}
 
+        <div>
+
+          <button disabled type="button" className="button is-light is-normal mr-3">
+            <span className="icon">
+              <i className="fas fa-share" />
+            </span>
+            <span>
+              Share
+            </span>
+          </button>
+
+          <div className="dropdown is-hoverable">
+            <div className="dropdown-trigger">
+              <button type="button" className="button is-light is-link" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>Download</span>
+                <span className="icon is-small">
+                  <i className="fas fa-angle-down" aria-hidden="true" />
+                </span>
+              </button>
+            </div>
+            <div className="dropdown-menu" id="dropdown-menu" role="menu">
+              <div className="dropdown-content">
+                {(photo.availableSizes || ['original']).map((size) => (
+                  <a
+                    key={size}
+                    target="_blank"
+                    rel="nofollow noreferrer"
+                    href={getDownloadUrl(photo, size)}
+                    className="dropdown-item"
+                    style={{ textTransform: 'capitalize' }}
+                  >
+                    {size}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
 
       <div className="photo-modal-image">
