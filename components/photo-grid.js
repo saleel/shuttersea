@@ -1,6 +1,7 @@
 import React from 'react';
 import { getPhotoUrl } from '../helpers/common';
 import PhotoModal from './photo-modal';
+import Image from 'next/image';
 
 export default function PhotoGrid(props) {
   const { photos } = props;
@@ -30,6 +31,7 @@ export default function PhotoGrid(props) {
                       backgroundImage: `url(${getPhotoUrl(photo)})`,
                       backgroundPosition: 'center',
                       backgroundSize: 'cover',
+                      backgroundColor: '#efefef',
                     }}
                     alt={photo.title}
                   />
