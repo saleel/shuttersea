@@ -11,8 +11,8 @@ export function getFileNameForSize(fileName, size) {
 export function getPhotoUrl(photo, size = 'small') {
   const hasRequiredSize = (photo.availableSizes || []).includes(size);
   if (hasRequiredSize) {
-    return `https://${photo.cid}.ipfs.dweb.link/${getFileNameForSize(photo.fileName, 'small')}`;
+    return `https://${photo.cid}.ipfs.dweb.link/${getFileNameForSize(photo.fileName, 'original')}`;
   }
 
-  return `https://${photo.cid}.ipfs.dweb.link/${getFileNameForSize(photo.fileName, 'original')}`;
+  return `https://${photo.cid}.ipfs.dweb.link/${getFileNameForSize(photo.fileName, 'small')}`;
 }

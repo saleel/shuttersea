@@ -30,8 +30,8 @@ Backend is presently in NodeJS (NextJS) and hosted in Vercel. Planning to migrat
 - ~~Add License, TOS and info pages~~
 - ~~Fix search results~~
 - Location dropdown
-- Delete 
-- Skeleton loading
+- ~~Delete~~
+- ~~Skeleton loading~~
 
 
 ## ENV
