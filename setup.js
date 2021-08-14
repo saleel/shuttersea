@@ -25,6 +25,7 @@ async function setup() {
   // await client.deleteCollection(threadId, 'actions')
   // await client.deleteCollection(threadId, 'photos')
   // const ids = await client.find(threadId, 'photos', {});
+  // console.log(ids);
   // await client.delete(threadId, 'photos', ids.map((a) => a._id));
 
   const collections = await client.listCollections(threadId);

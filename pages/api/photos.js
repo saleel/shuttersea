@@ -112,7 +112,7 @@ async function find(req, res) {
   const { id, keyword = '', userId } = req.query;
   const client = await getThreadDbClient();
 
-  const query = {
+  let query = {
     ands: [
       id && {
         fieldPath: '_id',
@@ -132,13 +132,19 @@ async function find(req, res) {
     ].filter(Boolean),
   };
 
-  const photos = await client.find(threadId, 'photos', query);
+  if (!query.ands.length) {
+    query = {};
+  }
+
+  let photos = await client.find(threadId, 'photos', query);
 
   // TODO: Fix this
   // Really inefficient way of finding filter by tags. Research on $in operator equivalent of ThreadDB.
-  const filtered = photos.filter((p) => p.tags.includes(keyword));
+  if (keyword) {
+    photos = photos.filter((p) => p.tags.includes(keyword));
+  }
 
-  res.status(200).json(filtered);
+  res.status(200).json(photos);
 }
 
 export default async function handler(req, res) {
