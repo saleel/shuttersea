@@ -68,7 +68,7 @@ export default function PhotoViewer(props) {
 
     // A small hack to prevent lot of views firing
     window.viewedPhotos = window.viewedPhotos || [];
-    console.log(window.viewedPhotos)
+    console.log(window.viewedPhotos);
     if (!window.viewedPhotos.includes(photo._id)) {
       axios.post('/api/actions', {
         photoId: photo._id,
