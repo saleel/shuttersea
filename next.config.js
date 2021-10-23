@@ -18,7 +18,7 @@ module.exports = {
     return [
       {
         source: '/loci',
-        destination: 'https://hop.clickbank.net/?affiliate=direct2021&vendor=bbox231&tid=ga&page=2',
+        destination: 'https://hop.clickbank.net/?affiliate=direct2021&vendor=bbox231&tid=ga&page=4',
         permanent: true,
       },
     ];
